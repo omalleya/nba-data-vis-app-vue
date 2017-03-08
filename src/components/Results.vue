@@ -1,10 +1,10 @@
 <template>
   <div class="ui centered card">
 
-    <!-- Search -->
+    <!-- Results -->
     <div class="content">
       <label class="header">Results</label>
-      {{ playerId }}
+      <p v-for='search of searches'>{{ search }}</p>
     </div>
     
   </div>
@@ -13,7 +13,7 @@
 <script type="text/javascript">
 
   export default {
-    props: ['playerId'],
+    props: ['searches'],
   };
   
 </script>

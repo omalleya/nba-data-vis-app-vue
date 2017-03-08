@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "fetch-jsonp": "^1.0.6",
+    "redux": "^3.6.0",
+    "revue": "^3.0.0",
     "vue": "^2.2.1",
     "vue-jsonp": "^0.1.4"
   },

@@ -17,22 +17,24 @@
 
       <!-- Search Component -->
       <div v-else>
-        <search v-show='search' :players='players'></search>
-        <comparison v-show='!search'></comparison>
+        <search v-show='!comparison' :players='players'></search>
+        <comparison v-show='comparison'></comparison>
       </div>
 
       <!-- Results Component -->
-      <results :playerId='playerId'></results>
+      <results :playerId='playerId' :searches='searches'></results>
 
     </div>
 </template>
 
-<script>
+<script type="text/javascript">
     import VueJsonp from 'vue-jsonp';
     import Vue from 'vue';
     import Search from './Search';
     import Results from './Results';
     import Comparison from './Comparison';
+    import store from '../store';
+    import actions from '../actions/actions';
     
     Vue.use(VueJsonp);
 
@@ -48,7 +50,8 @@
           error: false,
           players: {},
           playerId: '',
-          search: true,
+          comparison: false,
+          searches: [],
         };
       },
       mounted() {
@@ -66,6 +69,7 @@
           });
       },
       methods: {
+
         search(playerArray, name) {
           // search players object for specific player
           const player = playerArray.filter(
@@ -76,10 +80,17 @@
           } else {
             alert('Player not found!');
           }
+
+          this.searches.push(this.playerId);
+          console.log(this.searches);
+
+          store.dispatch(actions.searchPlayer());
         },
+
         toggle() {
-          this.search = !this.search;
+          this.comparison = !this.comparison;
         },
+
       },
     };
 

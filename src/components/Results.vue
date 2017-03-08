@@ -4,6 +4,7 @@
     <!-- Search -->
     <div class="content">
       <label class="header">Results</label>
+      {{ playerId }}
     </div>
     
   </div>
@@ -12,7 +13,7 @@
 <script type="text/javascript">
 
   export default {
-  
+    props: ['playerId'],
   };
   
 </script>

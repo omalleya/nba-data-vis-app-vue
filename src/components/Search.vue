@@ -50,18 +50,8 @@
 
     methods: {
       getData() {
-        const name = this.name;
-
-        // search players object for specific player
-        const player = this.players.resultSets[0].rowSet.filter(
-          p => p[2].toLowerCase() === name.toLowerCase(),
-        );
-        if (player.length !== 0) {
-          console.log(player);
-          this.playerId = player[0][0];
-        } else {
-          alert('Player not found!');
-        }
+        // call parent function
+        this.$parent.search(this.players.resultSets[0].rowSet, this.name);
       },
     },
   };

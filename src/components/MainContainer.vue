@@ -15,7 +15,7 @@
       <search v-if='dataLoaded' :players='players'></search>
 
       <!-- Results Component -->
-      <results></results>
+      <results :playerId='playerId'></results>
 
     </div>
 </template>
@@ -38,6 +38,7 @@
           dataLoaded: false,
           error: false,
           players: {},
+          playerId: '',
         };
       },
       mounted() {
@@ -48,18 +49,24 @@
           .then((json) => {
             // Success.
             this.players = json;
-            console.log(this.dataLoaded);
             this.dataLoaded = true;
-            console.log(this.dataLoaded);
-            console.log(this.players);
-            console.log(json);
-            return json;
-          }).catch((err) => {
+          }).catch(() => {
             // Failed.
             this.error = true;
-            console.log(err);
-            return err;
           });
+      },
+      methods: {
+        search(playerArray, name) {
+          // search players object for specific player
+          const player = playerArray.filter(
+            p => p[2].toLowerCase() === name.toLowerCase(),
+          );
+          if (player.length !== 0) {
+            this.playerId = player[0][0];
+          } else {
+            alert('Player not found!');
+          }
+        },
       },
     };
 

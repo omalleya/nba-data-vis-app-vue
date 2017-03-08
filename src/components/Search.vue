@@ -24,9 +24,9 @@
       <div class='ui form'>
         <div class='field'>
           <label>Player Name</label>
-          <input type='text' v-model="name">
+          <input type='text' @keyup.enter="getData" v-model="name">
         </div>
-        <button class="ui primary basic button" v-on:click="getData">Search</button>
+        <button class="ui primary basic button" @click="getData">Search</button>
       </div>
     </div>
     

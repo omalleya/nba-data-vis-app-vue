@@ -1,18 +1,25 @@
 <template>
     <div>
 
+      <div class="ui centered card">
+        <button class="ui basic button" @click='toggle'>Toggle Query Type</button>
+      </div>
+
       <!-- Loading Content -->
       <div v-if='!dataLoaded' class="ui centered card">
         <div v-if='!error' class="content">
           Loading content
         </div>
-        <div v-if='error' class="content">
+        <div v-else class="content">
           Failed to load properly
         </div>
       </div>
 
       <!-- Search Component -->
-      <search v-if='dataLoaded' :players='players'></search>
+      <div v-else>
+        <search v-show='search' :players='players'></search>
+        <comparison v-show='!search'></comparison>
+      </div>
 
       <!-- Results Component -->
       <results :playerId='playerId'></results>
@@ -25,6 +32,7 @@
     import Vue from 'vue';
     import Search from './Search';
     import Results from './Results';
+    import Comparison from './Comparison';
     
     Vue.use(VueJsonp);
 
@@ -32,6 +40,7 @@
       components: {
         Search,
         Results,
+        Comparison,
       },
       data() {
         return {
@@ -39,6 +48,7 @@
           error: false,
           players: {},
           playerId: '',
+          search: true,
         };
       },
       mounted() {
@@ -66,6 +76,9 @@
           } else {
             alert('Player not found!');
           }
+        },
+        toggle() {
+          this.search = !this.search;
         },
       },
     };

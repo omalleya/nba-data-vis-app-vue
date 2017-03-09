@@ -5,8 +5,12 @@
         <button class="ui basic button" @click='toggle'>Toggle Query Type</button>
       </div>
 
+      <div v-if='fetching'>
+        Loading...
+      </div>
+
       <!-- Loading Content -->
-      <div v-if='!dataLoaded' class="ui centered card">
+      <div v-if='!dataLoaded' v-bind:style="styles.styleContainer">
         <div v-if='!error' class="content">
           Loading content
         </div>
@@ -21,8 +25,10 @@
         <comparison v-show='comparison'></comparison>
       </div>
 
+      {{ searches }}
+
       <!-- Results Component -->
-      <results :playerId='playerId' :searches='searches'></results>
+      <results></results>
 
     </div>
 </template>
@@ -35,6 +41,7 @@
     import Comparison from './Comparison';
     import store from '../store';
     import actions from '../actions/actions';
+    import styleContainer from '../styles/container';
     
     Vue.use(VueJsonp);
 
@@ -46,45 +53,42 @@
       },
       data() {
         return {
-          dataLoaded: false,
+          fetching: this.$select('fetching'),
+          dataLoaded: this.$select('dataLoaded'),
           error: false,
-          players: {},
-          playerId: '',
+          players: this.$select('players'),
           comparison: false,
-          searches: [],
+          searches: this.$select('searches'),
+          styles: {
+            styleContainer,
+          },
         };
       },
       mounted() {
-        console.log(this.dataLoaded);
-        // TODO use object to send query params
-        // gets initial object of players with ids
-        Vue.jsonp('http://stats.nba.com/stats/commonallplayers?&LeagueID=00&Season=2016-17&IsOnlyCurrentSeason=0')
-          .then((json) => {
-            // Success.
-            this.players = json;
-            this.dataLoaded = true;
-          }).catch(() => {
-            // Failed.
-            this.error = true;
-          });
+        // const that = this;
+        async function getPlayers() {
+          await store.dispatch(actions.getPlayers());
+          console.log('PLAYERS: ');
+          console.log(this.players);
+        }
+
+        const exec = getPlayers.bind(this);
+        exec();
       },
       methods: {
 
-        search(playerArray, name) {
+        search(name) {
           // search players object for specific player
-          const player = playerArray.filter(
+          console.log(this.players);
+          const player = this.players[0].filter(
             p => p[2].toLowerCase() === name.toLowerCase(),
           );
           if (player.length !== 0) {
-            this.playerId = player[0][0];
+            // console.log(player[0][0]);
+            store.dispatch(actions.searchPlayer(player[0][0]));
           } else {
             alert('Player not found!');
           }
-
-          this.searches.push(this.playerId);
-          console.log(this.searches);
-
-          store.dispatch(actions.searchPlayer());
         },
 
         toggle() {
@@ -93,7 +97,6 @@
 
       },
     };
-
 
 </script>
 

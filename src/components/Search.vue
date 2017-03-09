@@ -41,7 +41,6 @@
     data() {
       return {
         name: '',
-        playerId: '',
       };
     },
 
@@ -51,7 +50,7 @@
     methods: {
       getData() {
         // call parent function
-        this.$parent.search(this.players.resultSets[0].rowSet, this.name);
+        this.$parent.search(this.name);
       },
     },
   };

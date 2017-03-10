@@ -11,7 +11,7 @@
       <div class='ui form'>
           <div class='field'>
             <label for="stat-select">Select Stat to Visualize</label>
-            <select class="ui fluid dropdown" id="stat-select">
+            <select class="ui fluid dropdown" v-model='stat' id="stat-select">
               <option value="FG3_PCT">Career 3 Point</option>
               <option value="AST">Career Assists</option>
             </select>
@@ -26,7 +26,7 @@
           <label>Player Name</label>
           <input type='text' @keyup.enter="getData" v-model="name">
         </div>
-        <button class="ui primary basic button" @click="getData">Search</button>
+        <button class="ui primary basic button" v-bind:disabled='fetching' @click="getData">Search</button>
       </div>
     </div>
     
@@ -41,6 +41,8 @@
     data() {
       return {
         name: '',
+        stat: '',
+        fetching: this.$select('fetching'),
       };
     },
 
@@ -50,7 +52,7 @@
     methods: {
       getData() {
         // call parent function
-        this.$parent.search(this.name);
+        this.$parent.search(this.name, this.stat);
       },
     },
   };

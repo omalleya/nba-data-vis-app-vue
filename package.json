@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
+    "d3": "^4.7.2",
     "fetch-jsonp": "^1.0.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",

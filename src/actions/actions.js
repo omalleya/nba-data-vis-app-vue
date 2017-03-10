@@ -15,7 +15,7 @@ const actions = {
 
       dispatch(this.fetchingPlayer());
 
-      fetchJsonp(playerProfileURL)
+      return fetchJsonp(playerProfileURL)
         .then(response => response.json())
         .catch((ex) => {
           console.log('parsing failed', ex);

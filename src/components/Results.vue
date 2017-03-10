@@ -2,7 +2,7 @@
   <div class="ui centered card">
 
     <!-- Results -->
-    <div class="content">
+    <div class="content container">
       <label class="header">Results</label>
       <p></p>
     </div>
